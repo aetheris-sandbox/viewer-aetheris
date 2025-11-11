@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aetheris Sandbox — 3D Viewer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- duplicate header removed -->
+
+    <header class="site-header">
+      <div class="container header-content">
+        <div class="logo">
+          <a href="https://aetheris-sandbox.ru" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:15px;text-decoration:none;color:inherit;">
+            <img src="icon_core.png" alt="Aetheris" />
+            <div>
+              <h1 style="margin:0;">Aetheris Sandbox</h1>
+              <div style="font-size:0.85rem;color:rgba(255,255,255,0.6)">3D Viewer</div>
+            </div>
+          </a>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#" class="active">Модели</a></li>
+            <li><a href="https://aetheris-sandbox.ru" target="_blank" rel="noopener noreferrer">О проекте</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container app" style="padding-top:110px;">
+      <aside id="sidebar" class="sidebar left">
+        <div class="sidebar-header">
+          <div>
+            <strong>Список Моделей</strong>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="reloadList" class="btn">Обновить</button>
+          <input id="filter" placeholder="Фильтр (имя)" class="input" />
+        </div>
+
+        <div id="modelsList" class="models-list">Загрузка списка моделей...</div>
+      </aside>
+
+      <section id="viewerWrap" class="viewer-wrap center">
+        <div class="viewer-toolbar">
+          <div id="modelInfo" class="model-info">Модель: <span id="modelName">—</span></div>
+          <div class="viewer-actions">
+            <button id="fullscreenBtn" class="btn small">⛶</button>
+          </div>
+        </div>
+
+        <div id="canvasContainer" class="canvas-container">
+          <div class="canvas-fallback">WebGL canvas будет здесь</div>
+        </div>
+
+        <div class="viewer-meta">
+            <div id="loading" class="loading">Загрузка...</div>
+            <div id="errorBox" style="display:none"></div>
+        </div>
+      </section>
+
+      <aside id="sidePanel" class="sidebar right">
+        <div class="sidebar-header"><strong>Информация</strong></div>
+        <div id="modelDetails" class="info-section">Выберите модель слева.</div>
+
+        <div class="info-section">
+          <label class="note">Режим отображения</label>
+          <div class="controls-group">
+            <button id="modeStandard" class="mode-btn active" data-mode="standard">Обычный</button>
+            <button id="modeWire" class="mode-btn" data-mode="wireframe">Сетка</button>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <label class="note">Статистика</label>
+          <div id="modelStats" style="white-space: pre-line;">—</div>
+          <div class="note" style="margin-top:10px;">Автор: <b>TimAVX</b></div>
+        </div>
+        
+      </aside>
+    </main>
+
+  <footer class="site-footer">© 2025 Nelik Studio. Aetheris Sandbox - все права защищены.</footer>
+
+    <script type="module" src="viewer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,544 @@
+.mode-btn, .sidebar-toggle {
+    /* clearer, more readable buttons */
+    background: rgba(255,255,255,0.06);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: box-shadow 0.14s ease, transform 0.08s ease, background 0.12s ease, color 0.12s ease;
+}
+.mode-btn:hover, .sidebar-toggle:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+}
+.mode-btn.active {
+    /* active: stronger translucent fill with dark text */
+    background: rgba(255,255,255,0.18);
+    color: #111;
+    border-color: rgba(255,255,255,0.22);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.sidebar-toggle {
+    font-size: 1.1rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transform: rotate(0deg);
+}
+.sidebar-toggle.collapsed {
+    transform: rotate(180deg);
+}
+:root {
+        --viewer-light: #f3f4f6; /* light gray viewer background */
+    --black: #000000;
+    --main-font: 'Montserrat', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
+    --dark-gray: #121212;
+    --gray: #1E1E1E;
+    --light-gray: #2E2E2E;
+    --lighter-gray: #3E3E3E;
+    --white: #FFFFFF;
+    --off-white: #F0F0F0;
+    --accent: rgba(255, 255, 255, 0.1);
+    --accent-hover: rgba(255, 255, 255, 0.15);
+    --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --glow: 0 0 10px rgba(255, 255, 255, 0.1), 0 0 20px rgba(110, 231, 183, 0.05);
+    --fs-base: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+    --fs-h1: clamp(2rem, 4.5vw, 3rem);
+    --fs-h2: clamp(1.4rem, 3.2vw, 2.2rem);
+    --accent-gradient: linear-gradient(90deg, #6EE7B7 0%, #3B82F6 100%);
+    --viewer-bg: linear-gradient(180deg, var(--dark-gray), var(--black));
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--main-font);
+}
+
+body {
+    background-color: var(--black);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+    min-height: 100vh;
+    font-family: var(--main-font);
+    background: url('background2025.png') center center / cover no-repeat fixed, var(--black);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 1rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+}
+
+.logo:hover img {
+    transform: rotate(15deg) scale(1.05);
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--white);
+    letter-spacing: -0.5px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+nav a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 400;
+    padding: 8px 0;
+    position: relative;
+    transition: var(--transition);
+    font-size: 0.95rem;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--white);
+    transition: var(--transition);
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav a:hover {
+    color: var(--white);
+}
+
+nav a.active {
+    color: var(--white);
+    font-weight: 500;
+}
+
+nav a.active::after {
+    width: 100%;
+}
+
+/* Layout */
+.app {
+    display: grid;
+    grid-template-columns: 320px 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.sidebar {
+    /* более прозрачный фон для боковых панелей */
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    max-height: calc(100vh - 120px);
+    overflow: auto;
+    position: sticky;
+    top: 100px;
+    transition: min-width 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+.sidebar.left {
+    min-width: 280px;
+    /* align left sidebar padding with other sidebars (match 20px) */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.sidebar.right {
+    min-width: 360px;
+    max-width: 420px;
+}
+
+.sidebar.collapsed {
+    min-width: 56px;
+    width: 56px;
+    overflow: hidden;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.sidebar.collapsed > *:not(.sidebar-header) {
+    display: none;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 0 20px; /* Padding for header content when collapsed */
+}
+
+/* Left sidebar spacing and layout improvements */
+.sidebar.left .sidebar-header {
+    /* make sure header content has breathing room */
+    gap: 12px;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* spacing between reload button and filter input */
+    margin: 10px 0 14px 0;
+}
+
+.controls .btn {
+    align-self: flex-start; /* don't stretch primary button */
+}
+
+/* Основные кнопки — белый текст по умолчанию */
+.btn,
+.mode-btn,
+.sidebar-toggle,
+button.model-item {
+    color: var(--white) !important;
+}
+
+.models-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* space between model items */
+    margin-top: 12px;
+    padding-left: 0; /* align items with header */
+}
+
+/* make filter input easier to use in sidebar */
+.sidebar.left .input {
+    width: 100%;
+}
+
+/* small vertical spacing for model items to avoid visual crowding */
+button.model-item {
+    margin-bottom: 4px;
+}
+
+.sidebar.collapsed .sidebar-header {
+    padding: 0 12px;
+}
+
+
+.sidebar.collapsed .sidebar-header > div {
+    display: none;
+}
+
+.sidebar-toggle {
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+    transform: rotate(180deg);
+}
+
+.viewer-wrap {
+    min-height: calc(100vh - 120px);
+}
+
+/* toolbar above the canvas: more breathing room and clearer vertical spacing */
+.viewer-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 6px 0 6px;
+    margin-bottom: 18px; /* increase space between toolbar and canvas */
+    gap: 12px;
+}
+
+.viewer-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#fullscreenBtn {
+    /* make fullscreen button visually separated from the canvas */
+    margin-top: 2px;
+    padding: 8px 10px;
+}
+
+.canvas-container {
+    width: 100%;
+    height: 60vh;
+    min-height: 380px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Ensure model list buttons always look correct */
+button.model-item {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: var(--white);
+    text-align: left;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button.model-item:focus { outline: 2px solid rgba(59,130,246,0.25); }
+
+button.model-item:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-2px);
+    color: var(--white);
+}
+
+/* selected model in the list */
+button.model-item.selected {
+    background: rgba(255,255,255,0.22);
+    color: #111;
+    border-color: rgba(255,255,255,0.24);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+}
+
+.info-section {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.info-section:last-child {
+    border-bottom: none;
+}
+
+.controls-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.site-header, .site-footer {
+    display: block; /* Make sure they are visible */
+}
+
+@media (max-width: 1100px) {
+    .app {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        position: relative;
+        top: 0;
+        max-height: none;
+    }
+    .sidebar.right { order: 3; }
+    .sidebar.left { order: 1; }
+    .viewer-wrap { order: 2; }
+}
+
+.loading {
+    color: var(--white);
+    background: var(--accent);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--accent-hover);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: none;
+}
+
+.btn {
+    /* primary action button — transparent Frutiger style */
+    background: rgba(255,255,255,0.03);
+    color: var(--white);
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.14);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.06);
+    color: var(--white);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+}
+
+.input {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 9px 12px;
+    border-radius: 8px;
+    color: var(--white);
+    width: 160px;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.input:focus {
+    border-color: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    outline: none;
+}
+
+/* Make the filter input placeholder more visible (whiter) */
+.input::placeholder {
+    color: rgba(228, 228, 228, 0.9);
+    opacity: 1; /* ensure strong color in all browsers */
+}
+.input::-webkit-input-placeholder { color: rgba(255,255,255,0.9); }
+.input:-ms-input-placeholder { color: rgba(255,255,255,0.9); }
+.input::-ms-input-placeholder { color: rgba(255,255,255,0.9); }
+.input:-moz-placeholder { color: rgba(255,255,255,0.9); opacity:1; }
+.input::-moz-placeholder { color: rgba(255,255,255,0.9); opacity:1; }
+
+.note {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.9rem;
+    padding: 8px 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 12px;
+}
+
+#errorBox {
+    background: rgba(255,59,48,0.1);
+    border: 1px solid rgba(255,59,48,0.2);
+    color: #ff8d85;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+    white-space: pre-wrap;
+}
+
+.app { display: grid; grid-template-columns: 320px 1fr 320px; gap: 24px; align-items: start; }
+/* ensure sidebar width uses the new grid */
+.sidebar { min-width: 320px; max-width: 360px; }
+.viewer-wrap { min-height: calc(100vh - 120px); }
+.canvas-container {
+    width: 100%;
+    height: 60vh;
+    min-height: 380px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative; /* required for pseudo background layer */
+    /* subtle framed look */
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    background: transparent;
+    /* blur the page background that sits behind the viewer */
+    -webkit-backdrop-filter: blur(6px) saturate(110%);
+    backdrop-filter: blur(6px) saturate(110%);
+}
+
+/* decorative semi-transparent dark overlay behind the WebGL canvas */
+.canvas-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.42));
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ensure the renderer canvas sits above the decorative background */
+.canvas-container > canvas {
+    position: relative;
+    z-index: 1;
+    display: block;
+}
+.info-panel { display:flex; flex-direction:column; gap:12px; padding: 12px; }
+
+@media (max-width: 1000px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { width: 100%; max-width: none; }
+    .viewer-main { height: 60vh; }
+    .info-panel { flex-direction: column; gap: 16px; }
+}
+
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 40px;
+}
+
+@media (max-width: 900px) {
+    .layout { 
+        flex-direction: column;
+        padding: 80px 16px;
+    }
+    .sidebar {
+        position: relative;
+        width: 100%;
+        top: 0;
+        max-height: none;
+    }
+    .canvas-container {
+        height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-content {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    nav ul {
+        justify-content: center;
+    }
+}

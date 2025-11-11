@@ -1,0 +1,12 @@
+{
+  "name": "aetheris-viewer-proxy",
+  "version": "1.0.0",
+  "description": "Simple signed-url proxy for serving models to the viewer (example)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
